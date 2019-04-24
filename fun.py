@@ -8,8 +8,7 @@ class Fun:
         self.client = client
 
     @commands.command(name = "eightball",
-                      description = "Magical 8 Ball",
-                      pass_context=True)
+                      description = "Magical 8 Ball")
     async def eightball(self, ctx):
         responses = ["It is certain",
                      "It is decidedly so",
