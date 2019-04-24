@@ -39,7 +39,7 @@ async def ping():
     await client.say("Pong! :ping_pong:")
 
 
-@client.command(pass_context=True)
+@client.command()
 async def displayembed(ctx):
     embed = discord.Embed(
         title = 'Title',
