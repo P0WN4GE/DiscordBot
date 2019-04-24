@@ -31,7 +31,7 @@ class Fun:
                      "Outlook not so good",
                      "Very doubtful"]
         response = random.choice(responses) + ", " + ctx.message.author.mention
-        await self.client.say(response)
+        await self.client.send(response)
 
 
 def setup(client):
