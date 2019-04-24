@@ -25,18 +25,18 @@ async def on_ready():
     print('Bot Online')
 
 
-@client.command(pass_context=True)  # Message Clear Command
+@client.command()  # Message Clear Command
 async def clear(ctx, amount=100):
     channel = ctx.message.channel
     messages = []
-    async for message in client.logs_from(channel, limit = int(amount)):
+    async for message in channel.history(channel, limit = int(amount)):
         messages.append(message)
-    await client.delete_messages(messages)
+    await message.delete(messages)
 
 
 @client.command(name = "ping") # Ping, need to add timestamp
 async def ping():
-    await client.say("Pong! :ping_pong:")
+    await client.send("Pong! :ping_pong:")
 
 
 @client.command()
@@ -56,12 +56,12 @@ async def displayembed(ctx):
     embed.add_field(name = ".ping", value = "Field Value", inline = True)
     embed.add_field(name = ".ping", value = "Field Value", inline = True)
 
-    await client.say(embed=embed)
+    await client.send(embed=embed)
 
 
 @client.command()  # Logs out bot
 async def logout():
-    await client.say("Logging out :wave:")
+    await client.send("Logging out :wave:")
     await client.logout()
 
 if __name__ == '__main__': # Load Cogs
