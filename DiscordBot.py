@@ -3,7 +3,7 @@ from discord.ext import commands
 import asyncio
 from itertools import cycle
 
-TOKEN = "NTcwMjEzMDA0MDg4NDQyOTAw.XL769g.KMJul2iuSAWplhPH5qkYrNRUOHw"
+TOKEN = ""  # Don't forget to add token
 client = commands.Bot(command_prefix='.')
 extensions = ['fun', 'admin']
 status = ["Msg1", "Msg2", "Msg3"]
