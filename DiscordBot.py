@@ -3,12 +3,15 @@ from discord.ext import commands
 import asyncio
 from itertools import cycle
 
-TOKEN = ""  # Don't forget to add token
+tokenFile = open("token", "r")
+token = tokenFile.read(59)
+TOKEN = token  # Don't forget to add token
 client = commands.Bot(command_prefix='.')
 extensions = ['fun', 'admin']
 status = ["Msg1", "Msg2", "Msg3"]
 
-
+# To Do:
+# Fix serverinfo members section
 '''async def change_status():
     await client.wait_until_ready()
     msgs = cycle(status)
@@ -21,7 +24,8 @@ status = ["Msg1", "Msg2", "Msg3"]
 
 @client.event   # Sends Terminal Message when loaded and sets status to .help
 async def on_ready():
-    await client.change_presence(game = discord.Game(name='.help'))
+    game = discord.Game(".help")
+    await client.change_presence(status = discord.Status.idle, activity = game)
     print('Bot Online')
 
 
@@ -34,9 +38,9 @@ async def clear(ctx, amount=100):
     await message.delete(messages)
 
 
-@client.command(name = "ping") # Ping, need to add timestamp
-async def ping():
-    await client.send("Pong! :ping_pong:")
+@client.command(name = "ping")  # Ping, need to add timestamp
+async def ping(ctx):
+    await ctx.channel.send("Pong! :ping_pong:")
 
 
 @client.command()
@@ -44,7 +48,7 @@ async def displayembed(ctx):
     embed = discord.Embed(
         title = 'Title',
         description = 'This is a description',
-        color = discord.Colour.blue()
+        colour = discord.Colour.blue()
     )
 
     embed.set_footer(text = 'This is a footer.')
@@ -56,13 +60,37 @@ async def displayembed(ctx):
     embed.add_field(name = ".ping", value = "Field Value", inline = True)
     embed.add_field(name = ".ping", value = "Field Value", inline = True)
 
-    await client.send(embed=embed)
+    await ctx.channel.send(embed=embed)
 
 
 @client.command()  # Logs out bot
-async def logout():
-    await client.send("Logging out :wave:")
+async def logout(ctx):
+    await ctx.channel.send("Logging out :wave:")
     await client.logout()
+
+
+@client.command()
+async def serverinfo(ctx):
+    server = ctx.message.guild
+    embed = discord.Embed(
+        colour = discord.Color.blue()
+        )
+
+    embed.set_thumbnail(url = server.icon_url)
+    embed.set_author(name = server.name,
+                     icon_url = server.icon_url)
+    embed.add_field(name = "Owner", value = server.owner.display_name, inline = True)
+    embed.add_field(name = "Region", value = str(server.region), inline = True)
+    embed.add_field(name = "Voice Channels", value = str(len(server.voice_channels)), inline = True)
+    embed.add_field(name = "Text Channels", value = str(len(server.text_channels)), inline = True)
+    members = server.members
+    for member in members:
+        if member.bot:
+            members.remove(member)
+    embed.add_field(name = "People", value = str(len(members)), inline = False)
+
+    await ctx.channel.send(embed=embed)
+
 
 if __name__ == '__main__': # Load Cogs
     for extension in extensions:

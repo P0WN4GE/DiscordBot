@@ -3,7 +3,7 @@ import random
 from discord.ext import commands
 
 
-class Fun:
+class Fun(commands.Cog):
     def __init__(self, client):
         self.client = client
 
@@ -31,7 +31,7 @@ class Fun:
                      "Outlook not so good",
                      "Very doubtful"]
         response = random.choice(responses) + ", " + ctx.message.author.mention
-        await self.client.send(response)
+        await ctx.channel.send(response)
 
 
 def setup(client):
